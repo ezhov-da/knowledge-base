@@ -1,0 +1,1 @@
+java -jar -Xmx128m "%~dp0\target\git-rest-service.jar"
