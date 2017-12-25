@@ -41,7 +41,11 @@ public class IntegrationTest {
 
     private void testPublicUrlOK() {
         ResteasyClient client = new ResteasyClientBuilder().build();
-        ResteasyWebTarget target = client.target(UriBuilder.fromPath(propertiesHolder.getURL() + "/knowledge/147178bb2ecc8a8706b2db1b2fbb8b60/url"));
+        ResteasyWebTarget target =
+                client.target(
+                        UriBuilder.fromPath(propertiesHolder.getURL() +
+                                "/knowledge/147178bb2ecc8a8706b2db1b2fbb8b60/url")
+                );
 
         Response response = target.request().post(Entity.entity("", MediaType.TEXT_HTML));
 
@@ -51,7 +55,10 @@ public class IntegrationTest {
 
     private void testPublicRawOK() {
         ResteasyClient client = new ResteasyClientBuilder().build();
-        ResteasyWebTarget target = client.target(UriBuilder.fromPath(propertiesHolder.getURL() + "/knowledge/147178bb2ecc8a8706b2db1b2fbb8b60/raw"));
+        ResteasyWebTarget target = client.target(
+                UriBuilder.fromPath(propertiesHolder.getURL() +
+                        "/knowledge/147178bb2ecc8a8706b2db1b2fbb8b60/raw")
+        );
 
         Response response = target.request().post(Entity.entity("", MediaType.TEXT_HTML));
 
