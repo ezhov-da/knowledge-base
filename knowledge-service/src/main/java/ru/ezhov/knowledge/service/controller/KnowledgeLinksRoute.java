@@ -4,7 +4,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import ru.ezhov.knowledge.common.Knowledge;
 import ru.ezhov.knowledge.common.PropertiesHolder;
 import ru.ezhov.knowledge.service.dao.KnowledgeDaoCacheSingleton;
-import ru.ezhov.knowledge.service.utils.RawTextReader;
 import ru.ezhov.knowledge.service.view.KnowledgeHash;
 import spark.Request;
 import spark.Response;
@@ -38,7 +37,7 @@ public class KnowledgeLinksRoute implements Route {
         Map<String, String> mapResponse = new HashMap<>();
 
         if (knowledgeHash == null) {
-            mapResponse.put("error", "oops, not found hash");
+            mapResponse.put("error", "Oops, not found hash...");
         } else {
 
             try {
@@ -46,11 +45,19 @@ public class KnowledgeLinksRoute implements Route {
                 DataType dataType = DataType.valueOf(data.toUpperCase());
                 switch (dataType) {
                     case URL:
-                        String redirect = dataProcessing(knowledge, request);
+                        String redirect = processing(
+                                knowledge,
+                                request,
+                                new KnowledgeResponsePreparingUrl()
+                        );
                         mapResponse.put("redirect", redirect);
                         break;
                     case RAW:
-                        String rawData = rawProcessing(knowledge, request);
+                        String rawData = processing(
+                                knowledge,
+                                request,
+                                new KnowledgeResponsePreparingRaw()
+                        );
                         mapResponse.put("text", rawData);
                         break;
                     default:
@@ -83,34 +90,13 @@ public class KnowledgeLinksRoute implements Route {
         return knowledgeHashMap.get(hash);
     }
 
-    //TODO:Remove double
-    private String dataProcessing(Knowledge knowledge, Request request) throws Exception {
+    private String processing(
+            Knowledge knowledge,
+            Request request,
+            KnowledgeResponsePreparing knowledgeResponsePreparing) throws Exception {
         String result;
         if (knowledge.isPublic()) {
-            result = knowledge.getUrl();
-        } else {
-            String password = request.queryParams("password");
-            request.params();
-            request.queryParams();
-            request.queryMap();
-            if (password == null || "".equals(password)) {
-                throw new Exception("Try get private data, password must be set...");
-            }
-            String passFromConfig = propertiesHolder.getPassword();
-            if (passFromConfig.equals(password)) {
-                result = knowledge.getUrl();
-            } else {
-                throw new Exception("Wrong password for secure link...");
-            }
-        }
-        return result;
-    }
-
-    //TODO:Remove double
-    private String rawProcessing(Knowledge knowledge, Request request) throws Exception {
-        String result;
-        if (knowledge.isPublic()) {
-            result = new RawTextReader(knowledge.getRawUrl()).read();
+            result = knowledgeResponsePreparing.prepare(knowledge);
         } else {
             String password = request.queryParams("password");
             if (password == null || "".equals(password)) {
@@ -118,7 +104,7 @@ public class KnowledgeLinksRoute implements Route {
             }
             String passFromConfig = propertiesHolder.getPassword();
             if (passFromConfig.equals(password)) {
-                result = new RawTextReader(knowledge.getRawUrl()).read();
+                result = knowledgeResponsePreparing.prepare(knowledge);
             } else {
                 throw new Exception("Wrong password for secure link...");
             }

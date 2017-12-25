@@ -22,10 +22,11 @@ public class IntegrationTest {
 
     @Test
     public void testAll() {
-//        testGetAllKnowledgeOK();
-//        testPublicUrlOK();
-//        testPublicRawOK();
+        testGetAllKnowledgeOK();
+        testPublicUrlOK();
+        testPublicRawOK();
         testPrivateUrlOK();
+        testPrivateRawOK();
     }
 
     private void testGetAllKnowledgeOK() {
@@ -43,6 +44,7 @@ public class IntegrationTest {
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(propertiesHolder.getURL() + "/knowledge/147178bb2ecc8a8706b2db1b2fbb8b60/url"));
 
         Response response = target.request().post(Entity.entity("", MediaType.TEXT_HTML));
+
         Map map = response.readEntity(Map.class);
         assertTrue(map.containsKey("redirect"));
     }
@@ -52,23 +54,42 @@ public class IntegrationTest {
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(propertiesHolder.getURL() + "/knowledge/147178bb2ecc8a8706b2db1b2fbb8b60/raw"));
 
         Response response = target.request().post(Entity.entity("", MediaType.TEXT_HTML));
+
         Map map = response.readEntity(Map.class);
         assertTrue(map.containsKey("text"));
     }
 
     private void testPrivateUrlOK() {
         ResteasyClient client = new ResteasyClientBuilder().build();
-        ResteasyWebTarget target = client.target(UriBuilder.fromPath(propertiesHolder.getURL() + "/knowledge/66b86c23a72ccbd863c08a8c3d6bdd35/url"));
+        ResteasyWebTarget target =
+                client.target(
+                        UriBuilder.fromPath(propertiesHolder.getURL() +
+                                "/knowledge/66b86c23a72ccbd863c08a8c3d6bdd35/url"));
 
+        Map mapResponse = checkPost(target);
+        assertTrue(mapResponse.containsKey("redirect"));
+    }
+
+    private void testPrivateRawOK() {
+        ResteasyClient client = new ResteasyClientBuilder().build();
+        ResteasyWebTarget target =
+                client.target(
+                        UriBuilder.fromPath(propertiesHolder.getURL() +
+                                "/knowledge/66b86c23a72ccbd863c08a8c3d6bdd35/raw"));
+
+        Map mapResponse = checkPost(target);
+        assertTrue(mapResponse.containsKey("text"));
+    }
+
+    private Map<String, String> checkPost(ResteasyWebTarget target) {
         Map<String, String> map = new HashMap<>();
         map.put("password", propertiesHolder.getPassword());
-        Entity entity = Entity.json(map);
-        //TODO: create password check
-        Response response = target.request().post(Entity.json(map));
+        Response response = target
+                .queryParam("password", propertiesHolder.getPassword())
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .post(Entity.json(map));
 
-        System.out.println(response.readEntity(String.class));
-
-//        Map map = response.readEntity(Map.class);
-//        assertTrue(map.containsKey("redirect"));
+        Map mapResponse = response.readEntity(Map.class);
+        return mapResponse;
     }
 }
