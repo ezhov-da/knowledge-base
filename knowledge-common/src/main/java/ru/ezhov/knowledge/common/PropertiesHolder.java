@@ -48,13 +48,18 @@ public class PropertiesHolder {
         return properties.getProperty("https.keyStorePassword");
     }
 
-    public String getUrl() {
+    public String getHost() {
         initPropertiesHolder();
-        return properties.getProperty("url");
+        return properties.getProperty("host");
     }
 
     public String getPassword() {
         initPropertiesHolder();
         return properties.getProperty("password");
+    }
+
+    public String getURL() {
+        initPropertiesHolder();
+        return getHost() + ":" + getPort();
     }
 }
