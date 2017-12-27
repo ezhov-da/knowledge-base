@@ -7,6 +7,9 @@ public class KnowledgeClient {
     private String url;
     private boolean isPublic;
 
+    public KnowledgeClient() {
+    }
+
     public KnowledgeClient(String name, String rawUrl, String description, String url, boolean isPublic) {
         this.name = name;
         this.rawUrl = rawUrl;

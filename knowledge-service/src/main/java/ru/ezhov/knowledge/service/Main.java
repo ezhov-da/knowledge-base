@@ -2,8 +2,7 @@ package ru.ezhov.knowledge.service;
 
 import ru.ezhov.knowledge.common.PropertiesHolder;
 import ru.ezhov.knowledge.service.controller.KnowledgeAllRoute;
-import ru.ezhov.knowledge.service.controller.KnowledgeRawTextRoute;
-import ru.ezhov.knowledge.service.controller.KnowledgeUrlRoute;
+import ru.ezhov.knowledge.service.controller.KnowledgeLinksRoute;
 
 import static spark.Spark.*;
 
@@ -22,8 +21,9 @@ public class Main {
         }
 
         get("/knowledges", new KnowledgeAllRoute());
-        post("/knowledge/:hash/raw", new KnowledgeRawTextRoute());
-        post("/knowledge/:hash/url", new KnowledgeUrlRoute());
+        post("/knowledge/:hash/:data", new KnowledgeLinksRoute(propertiesHolder));
+
+
 
     }
 }

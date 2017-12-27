@@ -36,7 +36,7 @@ public class KnowledgeDaoCacheSingleton implements KnowledgeHashDao {
 
     public final synchronized boolean isCached() {
         gitDaoSingleton = getInstance();
-        return !gitDaoSingleton.cacheLastKnowledgeTransforms.isEmpty();
+        return !cacheLastKnowledgeTransforms.isEmpty();
     }
 
     public final synchronized List<KnowledgeHash> getKnowledgeHashes() {
@@ -52,6 +52,7 @@ public class KnowledgeDaoCacheSingleton implements KnowledgeHashDao {
         List<Knowledge> knowledges = knowledgeDao.getKnowledges(propertiesHolder);
         cacheLastKnowledgeTransforms.removeAll(cacheLastKnowledgeTransforms);
         knowledges.forEach(k -> cacheLastKnowledgeTransforms.add(new KnowledgeHash(k)));
+        cacheLastKnowledgeTransforms.forEach(kh -> hashMap.put(kh.getHash(), kh));
     }
 
     @Override

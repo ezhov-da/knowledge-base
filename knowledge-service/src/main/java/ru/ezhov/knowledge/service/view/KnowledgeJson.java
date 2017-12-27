@@ -2,7 +2,6 @@ package ru.ezhov.knowledge.service.view;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import ru.ezhov.knowledge.common.Knowledge;
-import ru.ezhov.knowledge.common.KnowledgeDao;
 import ru.ezhov.knowledge.common.PropertiesHolder;
 import ru.ezhov.knowledge.service.dao.KnowledgeHashDao;
 
@@ -37,9 +36,9 @@ public class KnowledgeJson {
         String knowledgeHashString = knowledgeHash.getHash();
         knowledgeClient = new KnowledgeClient(
                 k.getName(),
-                String.format(propertiesHolder.getUrl() + "/knowledge/%s/raw", knowledgeHashString),
+                String.format(propertiesHolder.getURL() + "/knowledge/%s/raw", knowledgeHashString),
                 k.getDescription(),
-                String.format(propertiesHolder.getUrl() + "/knowledge/%s/url", knowledgeHashString),
+                String.format(propertiesHolder.getURL() + "/knowledge/%s/url", knowledgeHashString),
                 k.isPublic()
         );
         return knowledgeClient;
