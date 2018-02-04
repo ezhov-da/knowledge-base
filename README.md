@@ -1,2 +1,5 @@
 # knowledge-base
-knowledge-base basic on Git Gist
+knowledge-base basic on Git Gist  
+
+//TODO:  
+- Html теги исчезают  
