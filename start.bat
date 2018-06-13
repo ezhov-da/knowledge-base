@@ -1,1 +1,2 @@
-java -jar -Xmx128m "%~dp0\knowledge-service\target\git-rest-service.jar"
+cd /D %~dp0
+java -jar -Xmx128m "knowledge-service.jar"

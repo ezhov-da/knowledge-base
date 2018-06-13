@@ -89,7 +89,7 @@
 
     <build>
 
-        <finalName>git-rest-service</finalName>
+        <finalName>${artifactId}</finalName>
 
         <plugins>
             <plugin>
@@ -133,6 +133,37 @@
                                 ${project.build.directory}/${directory.extended.library}/
                             </outputDirectory>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--готовим данные для деплоя-->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${project.basedir}/../for-deploy"/>
+                                <delete includeemptydirs="true">
+                                    <fileset dir="${project.basedir}/../for-deploy" includes="**/*"/>
+                                </delete>
+                                <copyfile src="${project.build.directory}/${artifactId}.${packaging}"
+                                          dest="${project.basedir}/../for-deploy/${artifactId}.${packaging}"/>
+                                <copy todir="${project.basedir}/../for-deploy/${directory.extended.library}">
+                                    <fileset dir="${project.build.directory}/${directory.extended.library}"/>
+                                </copy>
+                                <copyfile src="${project.basedir}/../start.sh"
+                                          dest="${project.basedir}/../for-deploy/start.sh"/>
+                                <copyfile src="${project.basedir}/../start.bat"
+                                          dest="${project.basedir}/../for-deploy/start.bat"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
