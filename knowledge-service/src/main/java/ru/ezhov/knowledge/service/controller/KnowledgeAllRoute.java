@@ -1,13 +1,21 @@
 package ru.ezhov.knowledge.service.controller;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import ru.ezhov.knowledge.common.Knowledge;
+import ru.ezhov.knowledge.common.KnowledgeDao;
 import ru.ezhov.knowledge.common.PropertiesHolder;
-import ru.ezhov.knowledge.service.dao.KnowledgeDaoCacheSingleton;
-import ru.ezhov.knowledge.service.view.KnowledgeJson;
+import ru.ezhov.knowledge.service.dao.KnowledgeDaoSorter;
+import ru.ezhov.knowledge.service.dao.KnowledgeDaoSource;
+import ru.ezhov.knowledge.service.view.KnowledgeClient;
+import ru.ezhov.knowledge.service.view.KnowledgeNameComparator;
+import ru.ezhov.knowledge.service.view.KnowledgesAllJsonAnswer;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class KnowledgeAllRoute implements Route {
     private static String HEAD_PARAM = "Access-Control-Allow-Origin";
@@ -51,9 +59,32 @@ public class KnowledgeAllRoute implements Route {
     }
 
     private String createJson(PropertiesHolder propertiesHolder, Date lastUpdate) throws Exception {
-        KnowledgeJson knowledgeJson = new KnowledgeJson(KnowledgeDaoCacheSingleton.getInstance());
+        //TODO: пока убираем хеширование и кэширование
+        //KnowledgeJson knowledgeJson = new KnowledgeJson(KnowledgeDaoCacheSingleton.getInstance());
+        KnowledgeDao knowledgeDao = new KnowledgeDaoSorter(
+                new KnowledgeDaoSource(),
+                new KnowledgeNameComparator()
+        );
+
+        List<Knowledge> knowledges = knowledgeDao.getKnowledges(propertiesHolder);
+        List<KnowledgeClient> knowledgeClientList = new ArrayList<>();
+        knowledges.forEach(k -> knowledgeClientList.add(
+                new KnowledgeClient(
+                        k.getName(),
+                        k.getRawUrl(),
+                        k.getDescription(),
+                        k.getUrl(),
+                        k.isPublic()
+                )
+        ));
+
+        KnowledgesAllJsonAnswer knowledgesAllJsonAnswer =
+                new KnowledgesAllJsonAnswer(dateLastUpdate, knowledgeClientList);
+
         dateLastUpdate = lastUpdate;
-        return knowledgeJson.getJson(propertiesHolder, dateLastUpdate);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(knowledgesAllJsonAnswer);
     }
 
 }

@@ -39,7 +39,6 @@ public class KnowledgeLinksRoute implements Route {
         if (knowledgeHash == null) {
             mapResponse.put("error", "Oops, not found hash...");
         } else {
-
             try {
                 Knowledge knowledge = knowledgeHash.getKnowledge();
                 DataType dataType = DataType.valueOf(data.toUpperCase());

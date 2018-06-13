@@ -3,10 +3,8 @@ package ru.ezhov.knowledge;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.junit.Ignore;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-
 import ru.ezhov.knowledge.common.PropertiesHolder;
 import ru.ezhov.knowledge.service.view.KnowledgesAllJsonAnswer;
 
@@ -17,6 +15,10 @@ import javax.ws.rs.core.UriBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+@Ignore
 public class IntegrationTest {
     private PropertiesHolder propertiesHolder = new PropertiesHolder();
 

@@ -110,7 +110,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>ru.ezhov.git.rest.Main</mainClass>
+                            <mainClass>ru.ezhov.knowledge.service.Main</mainClass>
                             <classpathPrefix>${directory.extended.library}/</classpathPrefix>
                         </manifest>
                     </archive>
