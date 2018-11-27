@@ -5,8 +5,7 @@ import org.eclipse.egit.github.core.GistFile;
 import org.junit.Ignore;
 import org.junit.Test;
 import ru.ezhov.knowledge.common.Knowledge;
-import ru.ezhov.propertiesReader.Properties;
-import ru.ezhov.propertiesReader.PropertiesFactory;
+import ru.ezhov.knowledge.common.PropertiesHolder;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -14,17 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import static org.junit.Assert.*;
-
 @Ignore
 public class GitClientTest {
     @Test
     public void getKnowledgeTransforms() throws Exception {
-        Properties<String, String> stringProperties = PropertiesFactory.getPropertiesFromUserDirectory("common.properties");
-
         GitClient gitClient = new GitClient(
-                stringProperties.getProperty("git.token"),
-                stringProperties.getProperty("git.user")
+                PropertiesHolder.getToken(),
+                PropertiesHolder.getUser()
         );
 
         try {

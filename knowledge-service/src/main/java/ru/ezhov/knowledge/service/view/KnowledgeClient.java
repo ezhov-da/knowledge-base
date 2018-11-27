@@ -1,21 +1,40 @@
 package ru.ezhov.knowledge.service.view;
 
+import ru.ezhov.knowledge.common.Knowledge;
+
 public class KnowledgeClient {
+    private String type;
     private String name;
     private String rawUrl;
     private String description;
     private String url;
     private boolean isPublic;
 
-    public KnowledgeClient() {
+    private KnowledgeClient() {
     }
 
-    public KnowledgeClient(String name, String rawUrl, String description, String url, boolean isPublic) {
+    private KnowledgeClient(String type, String name, String rawUrl, String description, String url, boolean isPublic) {
+        this.type = type;
         this.name = name;
         this.rawUrl = rawUrl;
         this.description = description;
         this.url = url;
         this.isPublic = isPublic;
+    }
+
+    public static KnowledgeClient from(Knowledge knowledge, NameParser parser) {
+        return new KnowledgeClient(
+                parser.name(knowledge.getName()),
+                knowledge.getName(),
+                knowledge.getRawUrl(),
+                knowledge.getDescription(),
+                knowledge.getUrl(),
+                knowledge.isPublic()
+        );
+    }
+
+    public String getType() {
+        return type;
     }
 
     public String getName() {

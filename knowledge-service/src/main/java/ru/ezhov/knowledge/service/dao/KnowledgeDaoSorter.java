@@ -18,8 +18,8 @@ public class KnowledgeDaoSorter implements KnowledgeDao {
     }
 
     @Override
-    public List<Knowledge> getKnowledges(PropertiesHolder propertiesHolder) throws Exception {
-        List<Knowledge> knowledgeTransforms = knowledgeDao.getKnowledges(propertiesHolder);
+    public List<Knowledge> getKnowledges() throws Exception {
+        List<Knowledge> knowledgeTransforms = knowledgeDao.getKnowledges();
         Collections.sort(knowledgeTransforms, comparator);
         return knowledgeTransforms;
     }

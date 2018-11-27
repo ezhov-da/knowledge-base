@@ -16,7 +16,7 @@ public class KnowledgeGitDao implements KnowledgeDao {
     }
 
     @Override
-    public List<Knowledge> getKnowledges(PropertiesHolder propertiesHolder) throws Exception {
+    public List<Knowledge> getKnowledges() throws Exception {
         GitClient gitClient = new GitClient(token, user);
         return gitClient.getKnowledgeTransforms(new GitToKnowledgeConverter());
     }

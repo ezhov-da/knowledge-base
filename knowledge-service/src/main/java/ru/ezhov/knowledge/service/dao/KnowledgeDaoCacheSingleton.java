@@ -49,7 +49,7 @@ public class KnowledgeDaoCacheSingleton implements KnowledgeHashDao {
     }
 
     public synchronized void loadKnowledge(PropertiesHolder propertiesHolder) throws Exception {
-        List<Knowledge> knowledges = knowledgeDao.getKnowledges(propertiesHolder);
+        List<Knowledge> knowledges = knowledgeDao.getKnowledges();
         cacheLastKnowledgeTransforms.removeAll(cacheLastKnowledgeTransforms);
         knowledges.forEach(k -> cacheLastKnowledgeTransforms.add(new KnowledgeHash(k)));
         cacheLastKnowledgeTransforms.forEach(kh -> hashMap.put(kh.getHash(), kh));

@@ -20,10 +20,6 @@ public class KnowledgeLinksRoute implements Route {
     private static String TYPE = "application/json";
     private PropertiesHolder propertiesHolder;
 
-    public KnowledgeLinksRoute(PropertiesHolder propertiesHolder) {
-        this.propertiesHolder = propertiesHolder;
-    }
-
     @Override
     public Object handle(Request request, Response response) throws Exception {
         response.header(HEAD_PARAM1, HEAD_VALUE1);

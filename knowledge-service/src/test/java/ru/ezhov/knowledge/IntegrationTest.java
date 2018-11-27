@@ -20,8 +20,6 @@ import static org.junit.Assert.assertTrue;
 
 @Ignore
 public class IntegrationTest {
-    private PropertiesHolder propertiesHolder = new PropertiesHolder();
-
     @Test
     public void testAll() {
         testGetAllKnowledgeOK();
@@ -33,7 +31,7 @@ public class IntegrationTest {
 
     private void testGetAllKnowledgeOK() {
         ResteasyClient client = new ResteasyClientBuilder().build();
-        ResteasyWebTarget target = client.target(UriBuilder.fromPath(propertiesHolder.getURL() + "/knowledges"));
+        ResteasyWebTarget target = client.target(UriBuilder.fromPath(PropertiesHolder.getURL() + "/knowledges"));
 
         Response response = target.request().get();
 
@@ -45,7 +43,7 @@ public class IntegrationTest {
         ResteasyClient client = new ResteasyClientBuilder().build();
         ResteasyWebTarget target =
                 client.target(
-                        UriBuilder.fromPath(propertiesHolder.getURL() +
+                        UriBuilder.fromPath(PropertiesHolder.getURL() +
                                 "/knowledge/147178bb2ecc8a8706b2db1b2fbb8b60/url")
                 );
 
@@ -58,7 +56,7 @@ public class IntegrationTest {
     private void testPublicRawOK() {
         ResteasyClient client = new ResteasyClientBuilder().build();
         ResteasyWebTarget target = client.target(
-                UriBuilder.fromPath(propertiesHolder.getURL() +
+                UriBuilder.fromPath(PropertiesHolder.getURL() +
                         "/knowledge/147178bb2ecc8a8706b2db1b2fbb8b60/raw")
         );
 
@@ -72,7 +70,7 @@ public class IntegrationTest {
         ResteasyClient client = new ResteasyClientBuilder().build();
         ResteasyWebTarget target =
                 client.target(
-                        UriBuilder.fromPath(propertiesHolder.getURL() +
+                        UriBuilder.fromPath(PropertiesHolder.getURL() +
                                 "/knowledge/66b86c23a72ccbd863c08a8c3d6bdd35/url"));
 
         Map mapResponse = checkPost(target);
@@ -83,7 +81,7 @@ public class IntegrationTest {
         ResteasyClient client = new ResteasyClientBuilder().build();
         ResteasyWebTarget target =
                 client.target(
-                        UriBuilder.fromPath(propertiesHolder.getURL() +
+                        UriBuilder.fromPath(PropertiesHolder.getURL() +
                                 "/knowledge/66b86c23a72ccbd863c08a8c3d6bdd35/raw"));
 
         Map mapResponse = checkPost(target);
@@ -92,9 +90,9 @@ public class IntegrationTest {
 
     private Map<String, String> checkPost(ResteasyWebTarget target) {
         Map<String, String> map = new HashMap<>();
-        map.put("password", propertiesHolder.getPassword());
+        map.put("password", PropertiesHolder.getPassword());
         Response response = target
-                .queryParam("password", propertiesHolder.getPassword())
+                .queryParam("password", PropertiesHolder.getPassword())
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .post(Entity.json(map));
 

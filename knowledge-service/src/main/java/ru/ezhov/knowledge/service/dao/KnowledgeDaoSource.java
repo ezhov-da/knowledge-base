@@ -9,12 +9,11 @@ import java.util.List;
 
 public class KnowledgeDaoSource implements KnowledgeDao {
 
-    public List<Knowledge> getKnowledges(PropertiesHolder propertiesHolder) throws Exception {
+    public List<Knowledge> getKnowledges() throws Exception {
         KnowledgeDao knowledgeDao = new KnowledgeGitDao(
-                propertiesHolder.getToken(),
-                propertiesHolder.getUser()
+                PropertiesHolder.getToken(),
+                PropertiesHolder.getUser()
         );
-        List<Knowledge> knowledgeList = knowledgeDao.getKnowledges(null);
-        return knowledgeList;
+        return knowledgeDao.getKnowledges();
     }
 }

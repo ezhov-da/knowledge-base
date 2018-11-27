@@ -1,65 +1,64 @@
 package ru.ezhov.knowledge.common;
 
-import ru.ezhov.propertiesReader.Properties;
-import ru.ezhov.propertiesReader.PropertiesFactory;
+import java.io.FileReader;
+import java.util.Properties;
 
 public class PropertiesHolder {
     public static final String NAME_PROPERTIES_FILE = "knowledge-service.properties";
-    private Properties<String, String> properties;
+    public static PropertiesHolder propertiesHolder;
+    private static Properties properties;
 
-    public String getToken() {
-        initPropertiesHolder();
+    private PropertiesHolder() {
+    }
+
+    public static String getToken() {
         return properties.getProperty("git.token");
     }
 
-    public String getUser() {
-        initPropertiesHolder();
+    public static String getUser() {
         return properties.getProperty("git.user");
     }
 
-    public long getTimeoutUpdate() {
-        initPropertiesHolder();
+    public static long getTimeoutUpdate() {
         return Long.parseLong(properties.getProperty("git.update.milliseconds"));
     }
 
-    private void initPropertiesHolder() {
-        if (properties == null) {
-            properties = PropertiesFactory.getPropertiesFromUserDirectory(NAME_PROPERTIES_FILE);
+    public static void initPropertiesHolder() throws Exception {
+        if (propertiesHolder == null) {
+            properties = new Properties();
+            try (FileReader fileReader =
+                         new FileReader(System.getProperty("user.home") + "/" + NAME_PROPERTIES_FILE)) {
+                properties.load(fileReader);
+                propertiesHolder = new PropertiesHolder();
+            }
         }
     }
 
-    public int getPort() {
-        initPropertiesHolder();
+    public static int getPort() {
         return Integer.parseInt(properties.getProperty("port"));
     }
 
-    public boolean isHttpsEnable() {
-        initPropertiesHolder();
+    public static boolean isHttpsEnable() {
         return Boolean.parseBoolean(properties.getProperty("https.enable"));
     }
 
-    public String getHttpsKeyStorePath() {
-        initPropertiesHolder();
+    public static String getHttpsKeyStorePath() {
         return properties.getProperty("https.keyStorePath");
     }
 
-    public String getHttpKeyStorePassword() {
-        initPropertiesHolder();
+    public static String getHttpKeyStorePassword() {
         return properties.getProperty("https.keyStorePassword");
     }
 
-    public String getHost() {
-        initPropertiesHolder();
+    public static String getHost() {
         return properties.getProperty("host");
     }
 
-    public String getPassword() {
-        initPropertiesHolder();
+    public static String getPassword() {
         return properties.getProperty("password");
     }
 
-    public String getURL() {
-        initPropertiesHolder();
+    public static String getURL() {
         return getHost() + ":" + getPort();
     }
 }
