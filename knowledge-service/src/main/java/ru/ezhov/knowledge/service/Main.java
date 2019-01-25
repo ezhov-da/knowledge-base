@@ -12,7 +12,7 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(KnowledgeAllRoute.class);
 
     public static void main(String[] args) {
-        logger.info("запуск приложения");
+        logger.info("запуск приложения...");
         try {
             initProperties();
             port(PropertiesHolder.getPort());
@@ -27,6 +27,7 @@ public class Main {
             get("/knowledges", new KnowledgeAllRoute());
             options("/knowledges", new KnowledgeAllRoute());
             post("/knowledge/:hash/:data", new KnowledgeLinksRoute());
+            logger.info("приложение запущено");
         } catch (Exception e) {
             System.err.println("Ошибка запуска приложения");
             e.printStackTrace();
