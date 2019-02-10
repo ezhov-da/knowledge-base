@@ -36,6 +36,5 @@ public class Main {
 
     private static void initProperties() throws Exception {
         PropertiesHolder.initPropertiesHolder();
-
     }
 }
