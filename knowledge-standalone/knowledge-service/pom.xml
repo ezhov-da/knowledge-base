@@ -11,12 +11,12 @@
     <packaging>jar</packaging>
 
     <name>knowledge-service</name>
-    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <directory.extended.library>lib</directory.extended.library>
         <resteasy.version>3.0.14.Final</resteasy.version>
+        <standalone.deploy.dir>standalone-deploy-app</standalone.deploy.dir>
     </properties>
 
     <dependencies>
@@ -130,7 +130,7 @@
                         </goals>
                         <configuration>
                             <outputDirectory>
-                                ${project.build.directory}/${directory.extended.library}/
+                                target/lib
                             </outputDirectory>
                         </configuration>
                     </execution>
@@ -146,19 +146,19 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <mkdir dir="${project.basedir}/../for-deploy"/>
+                                <mkdir dir="${project.basedir}/../${standalone.deploy.dir}"/>
                                 <delete includeemptydirs="true">
-                                    <fileset dir="${project.basedir}/../for-deploy" includes="**/*"/>
+                                    <fileset dir="${project.basedir}/../${standalone.deploy.dir}" includes="**/*"/>
                                 </delete>
                                 <copyfile src="${project.build.directory}/${artifactId}.${packaging}"
-                                          dest="${project.basedir}/../for-deploy/${artifactId}.${packaging}"/>
-                                <copy todir="${project.basedir}/../for-deploy/${directory.extended.library}">
+                                          dest="${project.basedir}/../${standalone.deploy.dir}/${artifactId}.${packaging}"/>
+                                <copy todir="${project.basedir}/../${standalone.deploy.dir}/${directory.extended.library}">
                                     <fileset dir="${project.build.directory}/${directory.extended.library}"/>
                                 </copy>
                                 <copyfile src="${project.basedir}/../start.sh"
-                                          dest="${project.basedir}/../for-deploy/start.sh"/>
+                                          dest="${project.basedir}/../${standalone.deploy.dir}/start.sh"/>
                                 <copyfile src="${project.basedir}/../start.bat"
-                                          dest="${project.basedir}/../for-deploy/start.bat"/>
+                                          dest="${project.basedir}/../${standalone.deploy.dir}/start.bat"/>
                             </tasks>
                         </configuration>
                         <goals>

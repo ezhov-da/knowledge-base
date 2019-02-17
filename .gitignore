@@ -1,5 +1,8 @@
+#InteliJ
 target
 *.log
 .idea
 *.iml
-for-deploy
+
+#не коммитим сборку
+standalone-deploy-app
