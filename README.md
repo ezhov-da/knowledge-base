@@ -1,4 +1,8 @@
 # knowledge-base
+
+Перенос в EAR для Java EE
+-
+
 База знаний основанная на  Git Gist  
 
 Сборка проекта:  
