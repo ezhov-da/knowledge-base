@@ -11,6 +11,8 @@
 
     <artifactId>knowledge-ear</artifactId>
 
+    <packaging>ear</packaging>
+
     <name>knowledge-ear</name>
     <dependencies>
         <dependency>
@@ -39,7 +41,7 @@
                         <webModule>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>knowledge-client-web</artifactId>
-                            <contextRoot>/knowledge</contextRoot>
+                            <contextRoot>/knowledges</contextRoot>
                         </webModule>
                     </modules>
                 </configuration>
