@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("knowledges")
+@Path("knowledges.json")
 public class KnowledgesResource {
 
     @GET()
@@ -23,7 +23,7 @@ public class KnowledgesResource {
                                         .build())
                                 .build()
                         )
-                        .add("knowledges", Json.createArrayBuilder()
+                        .add("knowledges.json", Json.createArrayBuilder()
                                 .add(Json.createObjectBuilder()
                                         .add("type", "server")
                                         .add("name", "1")

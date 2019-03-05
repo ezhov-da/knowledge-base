@@ -22,8 +22,6 @@
 
     <!--<script src="source.json"></script>-->
     <script src="js/my-scripts.js"></script>
-    <script src="js/DigitalKeyboard.js"></script>
-    <link href="css/DigitalKeyboard.css" rel="stylesheet">
 </head>
 
 <body>
@@ -45,7 +43,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">
-                <img src="tool.png" alt="Tools">Tools</a>
+                <img src="tool.png" alt="Tools">Knowledges</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -118,14 +116,5 @@
         </div>
     </div>
 </div>
-<div id="keyboard"></div>
-<script>
-    var dgKeyboard = DigitalKeyboard;
-    var fnc = function (elem) {
-        alert(elem.value);
-    };
-    dgKeyboard.init("#keyboard");
-    dgKeyboard.setActionOnEnter(fnc);
-</script>
 </body>
 </html>

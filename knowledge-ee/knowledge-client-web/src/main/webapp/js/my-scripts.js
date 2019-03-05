@@ -1,9 +1,10 @@
 var b_CONSOLE_LOG = true;
 //var s_URL_GET = 'https://prog-tools.ru:64646/knowledges';
- var s_URL_GET = 'https://localhost:8443/knowledges/rest/knowledges';
-//var s_URL_GET = 'source.json';
+// var s_URL_GET = 'https://localhost:8443/knowledges/rest/knowledges';
+var s_URL_GET = 'resources/knowledges.json';
 
 // var s_URL_POST_RAW = 'http://localhost:64646/git/raw';
+//var s_URL_POST_RAW = 'https://prog-tools.ru:64646/knowledge/raw';
 var s_URL_POST_RAW = 'https://prog-tools.ru:64646/knowledge/raw';
 
 var RADIO_ALL = 'ALL';
