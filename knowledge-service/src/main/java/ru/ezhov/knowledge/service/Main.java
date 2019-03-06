@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.ezhov.knowledge.common.PropertiesHolder;
 import ru.ezhov.knowledge.service.controller.KnowledgeAllRoute;
+import ru.ezhov.knowledge.service.controller.KnowledgeRawRoute;
 import ru.ezhov.knowledge.service.controller.KnowledgeLinksRoute;
 
 import static spark.Spark.*;
@@ -16,6 +17,7 @@ public class Main {
         try {
             initProperties();
             port(PropertiesHolder.getPort());
+            logger.info("порт приложения {}", PropertiesHolder.getPort());
             if (PropertiesHolder.isHttpsEnable()) {
                 secure(
                         PropertiesHolder.getHttpsKeyStorePath(),
@@ -26,6 +28,8 @@ public class Main {
             }
             get("/knowledges", new KnowledgeAllRoute());
             options("/knowledges", new KnowledgeAllRoute());
+            get("/knowledge", new KnowledgeRawRoute());
+            options("/knowledge", new KnowledgeRawRoute());
             post("/knowledge/:hash/:data", new KnowledgeLinksRoute());
             logger.info("приложение запущено");
         } catch (Exception e) {

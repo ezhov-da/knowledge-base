@@ -1,8 +1,16 @@
 package ru.ezhov.knowledge.service.view;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.ezhov.knowledge.common.Knowledge;
+import ru.ezhov.knowledge.service.controller.KnowledgeAllRoute;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class KnowledgeClient {
+    private static final Logger logger = LoggerFactory.getLogger(KnowledgeClient.class);
     private String type;
     private String name;
     private String rawUrl;
@@ -22,11 +30,17 @@ public class KnowledgeClient {
         this.isPublic = isPublic;
     }
 
-    public static KnowledgeClient from(Knowledge knowledge, NameParser parser) {
+    public static KnowledgeClient from(String server, Knowledge knowledge, NameParser parser) throws Exception {
+        String rawUrl = URLEncoder
+                .encode(
+                        knowledge.getRawUrl(),
+                        StandardCharsets.UTF_8.name()
+                );
+        logger.debug("сгенерированная сырая ссылка: {}", rawUrl);
         return new KnowledgeClient(
                 parser.name(knowledge.getName()),
                 knowledge.getName(),
-                knowledge.getRawUrl(),
+                server + "/knowledge?raw=" + rawUrl,
                 knowledge.getDescription(),
                 knowledge.getUrl(),
                 knowledge.isPublic()
