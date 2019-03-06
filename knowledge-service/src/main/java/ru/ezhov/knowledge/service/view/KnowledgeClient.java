@@ -33,10 +33,10 @@ public class KnowledgeClient {
     public static KnowledgeClient from(String server, Knowledge knowledge, NameParser parser) throws Exception {
         String rawUrl = URLEncoder
                 .encode(
-                        knowledge.getRawUrl(),
+                        Base64.getEncoder().encodeToString(knowledge.getRawUrl().getBytes(StandardCharsets.UTF_8)),
                         StandardCharsets.UTF_8.name()
                 );
-        logger.debug("сгенерированная сырая ссылка: {}", rawUrl);
+//        logger.debug("сгенерированная сырая ссылка: {}", rawUrl);
         return new KnowledgeClient(
                 parser.name(knowledge.getName()),
                 knowledge.getName(),

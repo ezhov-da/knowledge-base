@@ -35,12 +35,10 @@ public class KnowledgeRawRoute implements Route {
             response.type(TYPE_PLANE_TEXT);
             return "OK";
         } else {
-            String url = URLDecoder
-                    .decode(request.queryParams("raw"), StandardCharsets.UTF_8.name());
+            response.header(HEAD_PARAM, HEAD_VALUE);
+            String url = new String(Base64.getDecoder().decode(request.queryParams("raw").getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
             logger.debug("получена ссылка для сырых данных: {}", url);
-            String urlDecode = URLEncoder.encode(url, "UTF-8");
-            logger.debug("ссылка декодирована: {}", urlDecode);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(urlDecode).openConnection();
+            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
             httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0)");
             InputStream is;
             if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {

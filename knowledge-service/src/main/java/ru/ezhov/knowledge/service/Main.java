@@ -26,10 +26,10 @@ public class Main {
                         null
                 );
             }
-            get("/knowledges", new KnowledgeAllRoute());
             options("/knowledges", new KnowledgeAllRoute());
-            get("/knowledge", new KnowledgeRawRoute());
+            get("/knowledges", new KnowledgeAllRoute());
             options("/knowledge", new KnowledgeRawRoute());
+            get("/knowledge", new KnowledgeRawRoute());
             post("/knowledge/:hash/:data", new KnowledgeLinksRoute());
             logger.info("приложение запущено");
         } catch (Exception e) {
