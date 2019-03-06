@@ -25,7 +25,7 @@ public class KnowledgeAllRoute implements Route {
 
     private static String HEAD_PARAM = "Access-Control-Allow-Origin";
     private static String HEAD_VALUE = "*";
-    private static String TYPE_APPLICATION_JSON = "application/json";
+    private static String TYPE_APPLICATION_JSON = "application/json; charset=utf-8";
     private static String TYPE_PLANE_TEXT = "text/plane";
 
     private static Date dateLastUpdate = new Date();
@@ -42,21 +42,23 @@ public class KnowledgeAllRoute implements Route {
             response.type(TYPE_PLANE_TEXT);
             return "OK";
         } else {
-            json = getJson();
             response.header(HEAD_PARAM, HEAD_VALUE);
             response.type(TYPE_APPLICATION_JSON);
+            String url = request.url();
+            String server = url.substring(0, url.lastIndexOf('/'));
+            json = getJson(server);
             return json;
         }
     }
 
-    private String getJson() throws Exception {
+    private String getJson(String server) throws Exception {
         String newJson;
         try {
             Date dateNow = new Date();
             long timeout = PropertiesHolder.getTimeoutUpdate();
             synchronized (lockObject) {
                 if (ipPassedTime(dateNow, dateLastUpdate, timeout) || json == null) {
-                    newJson = createJson(dateNow);
+                    newJson = createJson(server, dateNow);
                 } else {
                     newJson = json;
                 }
@@ -72,7 +74,7 @@ public class KnowledgeAllRoute implements Route {
         return now.getTime() - last.getTime() >= timeout;
     }
 
-    private String createJson(Date lastUpdate) throws Exception {
+    private String createJson(String server, Date lastUpdate) throws Exception {
         long start = System.currentTimeMillis();
         //TODO: пока убираем хеширование и кэширование
         //KnowledgeJson knowledgeJson = new KnowledgeJson(KnowledgeDaoCacheSingleton.getInstance());
@@ -82,9 +84,15 @@ public class KnowledgeAllRoute implements Route {
         );
         List<Knowledge> knowledges = knowledgeDao.getKnowledges();
         List<KnowledgeClient> knowledgeClientList = new ArrayList<>();
-        knowledges.forEach(k -> knowledgeClientList.add(
-                KnowledgeClient.from(k, new DashNameParser())
-        ));
+        knowledges.forEach(k -> {
+            try {
+                knowledgeClientList.add(
+                        KnowledgeClient.from(server, k, new DashNameParser())
+                );
+            } catch (Exception e) {
+                logger.warn("Ошибка при создании пользовательского знания {}", k, e);
+            }
+        });
         KnowledgesAllJsonAnswer knowledgesAllJsonAnswer =
                 new KnowledgesAllJsonAnswer(dateLastUpdate, knowledgeClientList);
         dateLastUpdate = lastUpdate;
