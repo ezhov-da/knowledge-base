@@ -1,10 +1,10 @@
 package ru.ezhov.knowledge.service.view;
 
-public class KnowledgeContextData {
+public class KnowledgeTableContextData {
     private String name;
     private int count;
 
-    public KnowledgeContextData(String name, int count) {
+    public KnowledgeTableContextData(String name, int count) {
         this.name = name;
         this.count = count;
     }

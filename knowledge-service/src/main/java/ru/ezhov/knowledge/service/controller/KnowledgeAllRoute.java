@@ -29,7 +29,7 @@ public class KnowledgeAllRoute implements Route {
     private static String TYPE_PLANE_TEXT = "text/plane";
 
     private static Date dateLastUpdate = new Date();
-    private static Object lockObject = new Object();
+    private static final Object lockObject = new Object();
     private static String json;
 
     @Override

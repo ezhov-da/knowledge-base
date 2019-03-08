@@ -3,7 +3,6 @@ package ru.ezhov.knowledge.service.view;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.ezhov.knowledge.common.Knowledge;
-import ru.ezhov.knowledge.service.controller.KnowledgeAllRoute;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -21,7 +20,7 @@ public class KnowledgeClient {
     private KnowledgeClient() {
     }
 
-    private KnowledgeClient(String type, String name, String rawUrl, String description, String url, boolean isPublic) {
+    KnowledgeClient(String type, String name, String rawUrl, String description, String url, boolean isPublic) {
         this.type = type;
         this.name = name;
         this.rawUrl = rawUrl;
