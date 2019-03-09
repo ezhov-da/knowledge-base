@@ -6,11 +6,13 @@ import java.util.List;
 public class KnowledgeTreeContextNode {
     private boolean expanded = true;
     private String text;
+    private String name;
     private List<KnowledgeTreeContextNode> children = new ArrayList<>();
     private boolean leaf;
 
-    public KnowledgeTreeContextNode(String text) {
+    KnowledgeTreeContextNode(String text) {
         this.text = text;
+        this.name = text;
     }
 
     public boolean isExpanded() {
@@ -38,6 +40,19 @@ public class KnowledgeTreeContextNode {
     }
 
     public String getText() {
-        return text;
+        int childrenCount = getChildrenCounter();
+        return childrenCount == 0 ? text : text + " (" + childrenCount + ")";
+    }
+
+    private int getChildrenCounter() {
+        int counterChildren = children.size();
+        for (KnowledgeTreeContextNode node : children) {
+            counterChildren += node.getChildren().size();
+        }
+        return counterChildren;
+    }
+
+    public String getName() {
+        return name;
     }
 }

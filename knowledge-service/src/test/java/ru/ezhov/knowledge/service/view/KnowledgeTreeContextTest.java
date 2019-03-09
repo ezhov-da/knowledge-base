@@ -15,6 +15,7 @@ public class KnowledgeTreeContextTest {
                 new KnowledgeClient("-", "-java-Test1", "", "", "", true),
                 new KnowledgeClient("-", "-java-maven-Test", "", "", "", true),
                 new KnowledgeClient("-", "-java-maven-gradle-Test", "", "", "", true),
+                new KnowledgeClient("-", "-java-maven-gradle-Test1", "", "", "", true),
                 new KnowledgeClient("-", "-java-all-Test", "", "", "", true),
                 new KnowledgeClient("-", "-sql-common-Test", "", "", "", true),
                 new KnowledgeClient("-", "-python-Test", "", "", "", true),

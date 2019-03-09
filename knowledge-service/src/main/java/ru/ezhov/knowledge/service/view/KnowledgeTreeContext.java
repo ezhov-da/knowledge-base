@@ -13,22 +13,22 @@ class KnowledgeTreeContext {
         map.put(null, localRoot);
         for (KnowledgeClient client : knowledgeClients) {
             String knowledgeName = client.getName();
-            KnowledgeTreeNode knowledgeTreeNode = KnowledgeTreeNode.from(knowledgeName);
-            KnowledgeTreeNode parent = knowledgeTreeNode.getParent();
+            KnowledgeTreeNodeSupport knowledgeTreeNodeSupport = KnowledgeTreeNodeSupport.from(knowledgeName);
+            KnowledgeTreeNodeSupport parent = knowledgeTreeNodeSupport.getParent();
             if (parent == null) {
-                KnowledgeTreeContextNode node = map.get(knowledgeTreeNode.getKey());
+                KnowledgeTreeContextNode node = map.get(knowledgeTreeNodeSupport.getKey());
                 if (node == null) {
-                    KnowledgeTreeContextNode withEmptyParentNode = new KnowledgeTreeContextNode(knowledgeTreeNode.getName());
+                    KnowledgeTreeContextNode withEmptyParentNode = new KnowledgeTreeContextNode(knowledgeTreeNodeSupport.getName());
                     localRoot.addChildren(withEmptyParentNode);
-                    map.put(knowledgeTreeNode.getKey(), withEmptyParentNode);
+                    map.put(knowledgeTreeNodeSupport.getKey(), withEmptyParentNode);
                 }
             } else {
                 //Может произойти так, что в карте пока родителей нет, по-этому нам нужно их сгенерировать
-                KnowledgeTreeContextNode parentNode = map.get(knowledgeTreeNode.getParent().getKey());
+                KnowledgeTreeContextNode parentNode = map.get(knowledgeTreeNodeSupport.getParent().getKey());
                 if (parentNode == null) {
-                    Stack<KnowledgeTreeNode> nodeStack = new Stack<>();
-                    KnowledgeTreeNode current;
-                    current = knowledgeTreeNode.getParent();
+                    Stack<KnowledgeTreeNodeSupport> nodeStack = new Stack<>();
+                    KnowledgeTreeNodeSupport current;
+                    current = knowledgeTreeNodeSupport.getParent();
                     while (true) {
                         if (current != null) {
                             nodeStack.push(current);
@@ -38,9 +38,9 @@ class KnowledgeTreeContext {
                         }
                     }
                     while (!nodeStack.empty()) {
-                        KnowledgeTreeNode treeNode = nodeStack.pop();
+                        KnowledgeTreeNodeSupport treeNode = nodeStack.pop();
                         KnowledgeTreeContextNode children = new KnowledgeTreeContextNode(treeNode.getName());
-                        KnowledgeTreeNode parentWithNull = treeNode.getParent();
+                        KnowledgeTreeNodeSupport parentWithNull = treeNode.getParent();
                         if (parentWithNull == null) {
                             localRoot.addChildren(children);
                         } else {
@@ -51,43 +51,43 @@ class KnowledgeTreeContext {
                     }
                 }
                 //Получим еще раз после возможного создания
-                parentNode = map.get(knowledgeTreeNode.getParent().getKey());
-                KnowledgeTreeContextNode children = new KnowledgeTreeContextNode(knowledgeTreeNode.getName());
+                parentNode = map.get(knowledgeTreeNodeSupport.getParent().getKey());
+                KnowledgeTreeContextNode children = new KnowledgeTreeContextNode(knowledgeTreeNodeSupport.getName());
                 parentNode.addChildren(children);
-                map.put(knowledgeTreeNode.getKey(), children);
+                map.put(knowledgeTreeNodeSupport.getKey(), children);
             }
         }
         return localRoot;
     }
 
-    private static class KnowledgeTreeNode {
-        private KnowledgeTreeNode parent;
+    private static class KnowledgeTreeNodeSupport {
+        private KnowledgeTreeNodeSupport parent;
         private String key;
         private String name;
 
-        static KnowledgeTreeNode from(String knowledgeClientName) {
+        static KnowledgeTreeNodeSupport from(String knowledgeClientName) {
             String[] array = knowledgeClientName.split("-");
             List<String> notEmptyValues = Stream.of(array).filter(a -> !"".equals(a)).collect(Collectors.toList());
             List<String> onlyHierarchy = notEmptyValues.subList(0, notEmptyValues.size() - 1);
-            return KnowledgeTreeNode.from(onlyHierarchy);
+            return KnowledgeTreeNodeSupport.from(onlyHierarchy);
         }
 
-        static KnowledgeTreeNode from(List<String> hierarchy) {
-            KnowledgeTreeNode knowledgeTreeNode = new KnowledgeTreeNode();
+        static KnowledgeTreeNodeSupport from(List<String> hierarchy) {
+            KnowledgeTreeNodeSupport knowledgeTreeNodeSupport = new KnowledgeTreeNodeSupport();
             if (hierarchy.size() == 1) {
-                knowledgeTreeNode.parent = null;
-                knowledgeTreeNode.key = String.join("", hierarchy).toLowerCase();
-                knowledgeTreeNode.name = knowledgeTreeNode.key;
+                knowledgeTreeNodeSupport.parent = null;
+                knowledgeTreeNodeSupport.key = String.join("", hierarchy).toLowerCase();
+                knowledgeTreeNodeSupport.name = knowledgeTreeNodeSupport.key;
             } else {
                 List<String> parents = hierarchy.subList(0, hierarchy.size() - 1);
-                knowledgeTreeNode.key = String.join("", hierarchy).toLowerCase();
-                knowledgeTreeNode.name = hierarchy.get(hierarchy.size() - 1);
-                knowledgeTreeNode.parent = KnowledgeTreeNode.from(parents);
+                knowledgeTreeNodeSupport.key = String.join("", hierarchy).toLowerCase();
+                knowledgeTreeNodeSupport.name = hierarchy.get(hierarchy.size() - 1);
+                knowledgeTreeNodeSupport.parent = KnowledgeTreeNodeSupport.from(parents);
             }
-            return knowledgeTreeNode;
+            return knowledgeTreeNodeSupport;
         }
 
-        KnowledgeTreeNode getParent() {
+        KnowledgeTreeNodeSupport getParent() {
             return parent;
         }
 
@@ -101,7 +101,7 @@ class KnowledgeTreeContext {
 
         @Override
         public String toString() {
-            return "KnowledgeTreeNode{" +
+            return "KnowledgeTreeNodeSupport{" +
                     "parentKey='" + parent + '\'' +
                     ", key='" + key + '\'' +
                     ", name='" + name + '\'' +
