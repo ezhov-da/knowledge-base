@@ -7,7 +7,8 @@ import java.util.List;
 
 public class KnowledgesAllJsonAnswer {
     private String lastUpdate;
-    private List<KnowledgeTableContextData> context;
+    private List<KnowledgeTableContextData> tableContext;
+    private KnowledgeTreeContextNode treeContext;
     private List<KnowledgeClient> knowledges;
     private DateFormat dateFormat = new SimpleDateFormat("E dd.MM.yyyy HH:mm:ss");
 
@@ -16,7 +17,8 @@ public class KnowledgesAllJsonAnswer {
 
     public KnowledgesAllJsonAnswer(Date lastUpdate, List<KnowledgeClient> knowledges) {
         this.lastUpdate = convertDate(lastUpdate);
-        this.context = KnowledgeTableContext.from(knowledges).getContext();
+        this.tableContext = KnowledgeTableContext.from(knowledges).getContext();
+        this.treeContext = KnowledgeTreeContext.from(knowledges);
         this.knowledges = knowledges;
     }
 
@@ -44,7 +46,11 @@ public class KnowledgesAllJsonAnswer {
         this.knowledges = knowledges;
     }
 
-    public List<KnowledgeTableContextData> getContext() {
-        return context;
+    public List<KnowledgeTableContextData> getTableContext() {
+        return tableContext;
+    }
+
+    public KnowledgeTreeContextNode getTreeContext() {
+        return treeContext;
     }
 }
