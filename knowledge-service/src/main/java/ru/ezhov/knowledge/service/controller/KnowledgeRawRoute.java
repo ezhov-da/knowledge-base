@@ -54,7 +54,6 @@ public class KnowledgeRawRoute implements Route {
             }
             response.status(200);
             response.type("text/plain; charset=utf-8");
-            response.type("text/plain");
             return stringBuilder.toString();
         }
     }
