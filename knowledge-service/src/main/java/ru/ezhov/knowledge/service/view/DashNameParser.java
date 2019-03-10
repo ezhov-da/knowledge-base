@@ -7,7 +7,7 @@ public class DashNameParser implements NameParser {
         if (originalName == null || originalName.isEmpty()) return "";
         if (!originalName.contains("-")) return "";
         String[] strings = originalName.split("-");
-        String text = strings[1];
+        String text = strings[0];
         return "".equals(text) ? originalName : text;
     }
 }
