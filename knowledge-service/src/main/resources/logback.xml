@@ -7,9 +7,10 @@
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>knowledge-base.log</file>
+        <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>knowledge-base.log.%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>
+            <fileNamePattern>knowledge-base.%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
