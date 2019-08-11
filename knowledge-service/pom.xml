@@ -17,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <directory.extended.library>lib</directory.extended.library>
         <resteasy.version>3.0.14.Final</resteasy.version>
+        <standalone.application.folder>standalone-application</standalone.application.folder>
     </properties>
 
     <dependencies>
@@ -146,19 +147,20 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <mkdir dir="${project.basedir}/../for-deploy"/>
+                                <mkdir dir="${project.basedir}/../${standalone.application.folder}"/>
                                 <delete includeemptydirs="true">
-                                    <fileset dir="${project.basedir}/../for-deploy" includes="**/*"/>
+                                    <fileset dir="${project.basedir}/../${standalone.application.folder}"
+                                             includes="**/*"/>
                                 </delete>
                                 <copyfile src="${project.build.directory}/${artifactId}.${packaging}"
-                                          dest="${project.basedir}/../for-deploy/${artifactId}.${packaging}"/>
-                                <copy todir="${project.basedir}/../for-deploy/${directory.extended.library}">
+                                          dest="${project.basedir}/../${standalone.application.folder}/${artifactId}.${packaging}"/>
+                                <copy todir="${project.basedir}/../${standalone.application.folder}/${directory.extended.library}">
                                     <fileset dir="${project.build.directory}/${directory.extended.library}"/>
                                 </copy>
                                 <copyfile src="${project.basedir}/../start.sh"
-                                          dest="${project.basedir}/../for-deploy/start.sh"/>
+                                          dest="${project.basedir}/../${standalone.application.folder}/start.sh"/>
                                 <copyfile src="${project.basedir}/../start.bat"
-                                          dest="${project.basedir}/../for-deploy/start.bat"/>
+                                          dest="${project.basedir}/../${standalone.application.folder}/start.bat"/>
                             </tasks>
                         </configuration>
                         <goals>
