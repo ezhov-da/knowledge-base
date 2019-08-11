@@ -74,7 +74,7 @@ class KnowledgeTreeContext {
 
         static KnowledgeTreeNodeSupport from(List<String> hierarchy) {
             KnowledgeTreeNodeSupport knowledgeTreeNodeSupport = new KnowledgeTreeNodeSupport();
-            if (hierarchy.size() == 1) {
+            if (hierarchy.isEmpty() || hierarchy.size() == 1) {
                 knowledgeTreeNodeSupport.parent = null;
                 knowledgeTreeNodeSupport.key = String.join("", hierarchy).toLowerCase();
                 knowledgeTreeNodeSupport.name = knowledgeTreeNodeSupport.key;

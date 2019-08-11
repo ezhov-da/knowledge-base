@@ -33,8 +33,7 @@ public class Main {
             post("/knowledge/:hash/:data", new KnowledgeLinksRoute());
             logger.info("приложение запущено");
         } catch (Exception e) {
-            System.err.println("Ошибка запуска приложения");
-            e.printStackTrace();
+            logger.error("Ошибка запуска приложения", e);
         }
     }
 
