@@ -1,0 +1,16 @@
+[Unit]
+Description=knowledge-base
+After=network.target
+After=syslog.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/bin/sh /home/ezhov_da/apps/knowledge-base-service/start.sh
+WorkingDirectory=/home/ezhov_da/apps/knowledge-base-service
+Restart=always
+RestartSec=10
